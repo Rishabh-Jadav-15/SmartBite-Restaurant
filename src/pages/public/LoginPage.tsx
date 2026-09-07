@@ -45,7 +45,7 @@ export const LoginPage: React.FC<{ navigate: (path: string) => void }> = ({ navi
           </p>
         </div>
 
-        {/* 1-Click Fast Sandbox Logins */}
+        {/* 1-Click Fast Sandbox Logins
         <GlassCard className="p-4 border-[#FF6B35]/30 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#FF6B35] flex items-center gap-1.5">
@@ -107,7 +107,8 @@ export const LoginPage: React.FC<{ navigate: (path: string) => void }> = ({ navi
               <span className="text-[10px] opacity-60">Profit BI & Forecasts (₹)</span>
             </button>
           </div>
-        </GlassCard>
+        </GlassCard> */}
+        
 
         {/* Standard Login Form */}
         <GlassCard className="p-6">
