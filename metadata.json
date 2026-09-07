@@ -1,0 +1,6 @@
+{
+  "name": "SmartBite AI",
+  "description": "AI-powered Restaurant Management & Analytics SaaS platform featuring multi-role access control, kitchen operations, health-tech intelligence, and executive predictive analytics in Indian Rupees (₹).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
