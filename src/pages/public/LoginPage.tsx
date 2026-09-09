@@ -39,7 +39,7 @@ export const LoginPage: React.FC<{ navigate: (path: string) => void }> = ({ navi
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF6B35] to-[#FFA366] flex items-center justify-center shadow-xl shadow-[#FF6B35]/30 mx-auto">
             <Flame className="w-6 h-6 text-white fill-white" />
           </div>
-          <h1 className="text-2xl font-black tracking-tight">Access SmartBite AI</h1>
+          <h1 className="text-2xl font-black tracking-tight">SmartBite Login</h1>
           <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             Sign in to your role-authorized workspace
           </p>
@@ -114,7 +114,7 @@ export const LoginPage: React.FC<{ navigate: (path: string) => void }> = ({ navi
         <GlassCard className="p-6">
           <form onSubmit={handleStandardLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold mb-1">Work or Personal Email</label>
+              <label className="block text-xs font-semibold mb-1">Email</label>
               <div className="relative">
                 <Mail className="w-4 h-4 absolute left-3.5 top-3 text-gray-400" />
                 <input
@@ -122,7 +122,7 @@ export const LoginPage: React.FC<{ navigate: (path: string) => void }> = ({ navi
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@smartbite.ai"
+                  placeholder="customer@gmail.com"
                   className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl border text-xs outline-none focus:border-[#FF6B35] transition-colors ${
                     isDarkMode ? 'bg-[#242424] border-white/10 text-white' : 'bg-gray-50 border-black/10 text-black'
                   }`}
@@ -171,7 +171,7 @@ export const LoginPage: React.FC<{ navigate: (path: string) => void }> = ({ navi
               type="submit"
               className="w-full py-3 bg-[#FF6B35] hover:bg-[#FFA366] text-white text-xs font-bold rounded-xl shadow-lg shadow-[#FF6B35]/25 flex items-center justify-center gap-2 cursor-pointer transition-all"
             >
-              <span>Authenticate & Enter</span>
+              <span>Login</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>

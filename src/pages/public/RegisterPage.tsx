@@ -51,7 +51,7 @@ export const RegisterPage: React.FC<{ navigate: (path: string) => void }> = ({ n
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Diya Sengupta"
+                  placeholder="e.g. Rishabh Jadav"
                   className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl border text-xs outline-none focus:border-[#FF6B35] transition-colors ${
                     isDarkMode ? 'bg-[#242424] border-white/10 text-white' : 'bg-gray-50 border-black/10 text-black'
                   }`}
@@ -77,7 +77,7 @@ export const RegisterPage: React.FC<{ navigate: (path: string) => void }> = ({ n
             </div>
 
             <div>
-              <label className="block text-xs font-semibold mb-1">Phone Number (India +91)</label>
+              <label className="block text-xs font-semibold mb-1">Phone Number</label>
               <div className="relative">
                 <Phone className="w-4 h-4 absolute left-3.5 top-3 text-gray-400" />
                 <input
