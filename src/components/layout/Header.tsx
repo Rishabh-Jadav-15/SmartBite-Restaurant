@@ -88,9 +88,9 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-[#FF6B35] via-[#FFA366] to-[#FF6B35] bg-clip-text text-transparent">
                   SmartBite
                 </span>
-                <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-bold border border-cyan-500/20">
+                {/* <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-bold border border-cyan-500/20">
                   AI
-                </span>
+                </span> */}
               </div>
               <span className="text-[10px] tracking-wider uppercase opacity-60 font-semibold -mt-1 hidden sm:inline">
                 Culinary Intelligence
@@ -100,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Center: Quick Role Switcher Pill & Public links */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* <div className="hidden md:flex items-center gap-3">
           {isAuthenticated ? (
             <div className="relative">
               <button
@@ -189,7 +189,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* Right: Cart (Customer only) + Theme Toggle + User Profile */}
         <div className="flex items-center gap-3">

@@ -76,12 +76,12 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
 
         <div className="text-center max-w-3xl mx-auto space-y-6 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-semibold shadow-sm bg-[#FF6B35]/10 border-[#FF6B35]/30 text-[#FF6B35]"
+            // initial={{ opacity: 0, y: 20 }}
+            // animate={{ opacity: 1, y: 0 }}
+            // className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-semibold shadow-sm bg-[#FF6B35]/10 border-[#FF6B35]/30 text-[#FF6B35]"
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Next-Generation Restaurant OS • 2026 Edition</span>
+            {/* <Sparkles className="w-3.5 h-3.5" /> */}
+            {/* <span>Next-Generation Restaurant OS • 2026 Edition</span> */}
           </motion.div>
 
           <motion.h1
@@ -114,6 +114,18 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap items-center justify-center gap-4 pt-2"
           >
+
+            <button
+              onClick={() => navigate('/login')}
+              className={`px-8 py-3.5 rounded-xl border text-sm font-bold transition-all hover:scale-105 cursor-pointer ${
+                isDarkMode
+                  ? 'border-white/15 bg-white/5 hover:bg-white/10 text-white'
+                  : 'border-black/10 bg-black/5 hover:bg-black/10 text-[#0F0F0F]'
+              }`}
+            >
+             Log In
+            </button>
+
             <button
               onClick={() => {
                 switchRole('CUSTOMER');
@@ -125,20 +137,11 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
               <ArrowRight className="w-4 h-4" />
             </button>
 
-            <button
-              onClick={() => navigate('/login')}
-              className={`px-8 py-3.5 rounded-xl border text-sm font-bold transition-all hover:scale-105 cursor-pointer ${
-                isDarkMode
-                  ? 'border-white/15 bg-white/5 hover:bg-white/10 text-white'
-                  : 'border-black/10 bg-black/5 hover:bg-black/10 text-[#0F0F0F]'
-              }`}
-            >
-              Role Portal Sign In
-            </button>
+            
           </motion.div>
 
           {/* Quick RBAC Tester Strip */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -187,7 +190,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                 <span>Owner BI</span>
               </button>
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </section>
 
