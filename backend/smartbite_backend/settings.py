@@ -41,7 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'menu',
+    'orders',
+    'reservations',
+    'restaurant',
+    'reviews',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

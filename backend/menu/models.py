@@ -42,3 +42,34 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
+
+class MenuItemIngredient(models.Model):
+    menu_item = models.ForeignKey(
+        MenuItem,
+        on_delete=models.CASCADE,
+        related_name='ingredients'
+    )
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE,
+        related_name='menu_items'
+    )
+    quantity_required = models.DecimalField(max_digits=10, decimal_places=3)
+
+    unit = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.menu_item.name} - {self.ingredient.name}"
+
+
+class Inventory(models.Model):
+    ingredient = models.OneToOneField(
+        Ingredient,
+        on_delete=models.CASCADE,
+        related_name="inventory"
+    )
+    quantity = models.DecimalField(max_digits=10, decimal_places=3)
+    minimum_stock = models.DecimalField(max_digits=10, decimal_places=3)
+
+    def __str__(self):
+        return self.ingredient.name
