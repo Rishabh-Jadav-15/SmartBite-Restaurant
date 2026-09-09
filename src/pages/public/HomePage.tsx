@@ -117,7 +117,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
 
             <button
               onClick={() => navigate('/login')}
-              className={`px-8 py-3.5 rounded-xl border text-sm font-bold transition-all hover:scale-105 cursor-pointer ${
+              className={`px-19 py-3.5 rounded-xl border text-sm font-bold transition-all hover:scale-105 cursor-pointer ${
                 isDarkMode
                   ? 'border-white/15 bg-white/5 hover:bg-white/10 text-white'
                   : 'border-black/10 bg-black/5 hover:bg-black/10 text-[#0F0F0F]'
