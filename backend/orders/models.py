@@ -56,7 +56,7 @@ class OrderItem(models.Model):
         on_delete=models.CASCADE,
         related_name='order_items'
     )
-    quality = models.IntegerField()
+    quantity = models.IntegerField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
 
