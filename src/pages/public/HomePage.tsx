@@ -116,7 +116,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
           >
 
             <button
-              onClick={() => navigate('/login')}
+              // onClick={() => navigate('/login')}
               className={`px-19 py-3.5 rounded-xl border text-sm font-bold transition-all hover:scale-105 cursor-pointer ${
                 isDarkMode
                   ? 'border-white/15 bg-white/5 hover:bg-white/10 text-white'
@@ -129,7 +129,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
             <button
               onClick={() => {
                 switchRole('CUSTOMER');
-                navigate('/customer/menu');
+                // navigate('/customer/menu');
               }}
               className="px-8 py-3.5 bg-[#FF6B35] hover:bg-[#FFA366] text-white font-bold text-sm rounded-xl shadow-xl shadow-[#FF6B35]/30 flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer"
             >
@@ -309,7 +309,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                     onClick={() => {
                       addToCart(dish, 1);
                       switchRole('CUSTOMER');
-                      navigate('/customer/menu');
+                      // navigate('/customer/menu');
                     }}
                     className="px-4 py-2 bg-[#FF6B35] hover:bg-[#FFA366] text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5"
                   >
@@ -380,7 +380,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
               Join thousands of patrons and leading restaurant operations leveraging AI for culinary perfection.
             </p>
           </div>
-          <button
+          {/* <button
             onClick={() => {
               switchRole('CUSTOMER');
               navigate('/customer');
@@ -388,7 +388,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
             className="px-8 py-4 bg-white hover:bg-white/90 text-[#FF6B35] font-black text-sm rounded-2xl shadow-xl transition-all hover:scale-105 flex-shrink-0"
           >
             Launch Customer Portal
-          </button>
+          </button> */}
         </div>
       </section>
     </div>
