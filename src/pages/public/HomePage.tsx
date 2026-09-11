@@ -116,7 +116,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
           >
 
             <button
-              // onClick={() => navigate('/login')}
+              onClick={() => navigate('/login')}
               className={`px-19 py-3.5 rounded-xl border text-sm font-bold transition-all hover:scale-105 cursor-pointer ${
                 isDarkMode
                   ? 'border-white/15 bg-white/5 hover:bg-white/10 text-white'
@@ -128,7 +128,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
 
             <button
               onClick={() => {
-                switchRole('CUSTOMER');
+                // switchRole('CUSTOMER');
                 // navigate('/customer/menu');
               }}
               className="px-8 py-3.5 bg-[#FF6B35] hover:bg-[#FFA366] text-white font-bold text-sm rounded-xl shadow-xl shadow-[#FF6B35]/30 flex items-center gap-2.5 transition-all hover:scale-105 cursor-pointer"
@@ -263,8 +263,8 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
           </div>
           <button
             onClick={() => {
-              switchRole('CUSTOMER');
-              navigate('/customer/menu');
+              // switchRole('CUSTOMER');
+              navigate('/login');
             }}
             className="text-xs font-bold text-[#FF6B35] flex items-center gap-1 hover:underline"
           >
@@ -303,7 +303,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-inherit flex items-center justify-between">
+                {/* <div className="pt-3 border-t border-inherit flex items-center justify-between">
                   <span className="text-lg font-black text-[#FF6B35]">{formatINR(dish.price)}</span>
                   <button
                     onClick={() => {
@@ -315,7 +315,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
                   >
                     <span>Order Now</span>
                   </button>
-                </div>
+                </div> */}
               </div>
             </GlassCard>
           ))}
