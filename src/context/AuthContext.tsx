@@ -59,13 +59,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   });
 
-  const [user, setUser] = useState<User | null>(() => {
-    const found = INITIAL_USERS.find(u => u.role === role);
-    return found || INITIAL_USERS[0];
-  });
+  // const [user, setUser] = useState<User | null>(() => {
+  //   const found = INITIAL_USERS.find(u => u.role === role);
+  //   return found || INITIAL_USERS[0];
+  // });
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
+  const [user, setUser] = useState<User | null>(null);
+
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   // Cart
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
