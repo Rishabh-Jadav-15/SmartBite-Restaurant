@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'reservations',
     'restaurant',
     'reviews',
+    'rest_framework',
+    'authentication',
 ]
 
 

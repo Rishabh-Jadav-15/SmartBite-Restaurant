@@ -93,7 +93,7 @@ export const RegisterPage: React.FC<{ navigate: (path: string) => void }> = ({ n
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <label className="block text-xs font-semibold mb-1">Account Role Workspace</label>
               <select
                 value={formData.role}
@@ -107,7 +107,7 @@ export const RegisterPage: React.FC<{ navigate: (path: string) => void }> = ({ n
                 <option value="ADMIN">Restaurant Administrator (Operations)</option>
                 <option value="OWNER">Executive Business Owner (Analytics & BI)</option>
               </select>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-2 gap-2">
               <div>
