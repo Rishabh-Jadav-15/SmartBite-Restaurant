@@ -7,7 +7,7 @@ export interface AuthContextType {
   role: UserRole;
   currentRole: UserRole;
   isAuthenticated: boolean;
-  login: (email: string, role?: UserRole) => void;
+  login: (email: string, password: string) => Promise<User>;
   logout: () => void;
   switchRole: (role: UserRole) => void;
   updateUser: (userData: Partial<User>) => void;
@@ -113,33 +113,58 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(prev => prev ? { ...prev, ...userData } : null);
   };
 
-  const login = (email: string, targetRole?: UserRole) => {
-    const matched = usersList.find(u => u.email.toLowerCase() === email.toLowerCase());
-    if (matched) {
-      setUser(matched);
-      setRole(matched.role);
-    } else {
-      const fallbackRole = targetRole || 'CUSTOMER';
-      const newUser: User = {
-        id: `usr-${Date.now()}`,
-        name: email.split('@')[0].toUpperCase(),
+  const login = async (email: string, password: string) => {
+    const response = await fetch('http://127.0.0.1:8000/api/auth/login',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         email,
-        phone: '+91 98765 00000',
-        role: fallbackRole,
-        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-        createdAt: new Date().toLocaleDateString('en-GB'),
-        status: 'ACTIVE',
-      };
-      setUser(newUser);
-      setRole(fallbackRole);
-      setUsersList(prev => [...prev, newUser]);
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if(!response.ok)
+    {
+      throw new Error(data.detail || 'Invalid email or password.');
     }
+
+    localStorage.setItem('smartbite_access_token',data.access);
+    localStorage.setItem('smartbite_refresh_token',data.refresh);
+
+    const backendUser = data.user;
+
+    const frontendRole = backendUser.role.toUpperCase() as UserRole;
+
+    const loggedInUser: User ={
+      id:String(backendUser.id),
+      name:backendUser.name,
+      email:backendUser.email,
+      phone:'',
+      role: frontendRole,
+      avatar: '',
+      createdAt: new Date().toLocaleDateString('en-GB'),
+      status:'ACTIVE',
+    };
+
+    setUser(loggedInUser);
+    setRole(frontendRole);
     setIsAuthenticated(true);
+
+    return loggedInUser;
   };
 
   const logout = () => {
+    localStorage.removeItem('smartbite_access_token');
+    localStorage.removeItem('smartbite_refresh_token');
+    localStorage.removeItem('smartbite_role');
+
     setIsAuthenticated(false);
     setUser(null);
+    setRole('CUSTOMER');
   };
 
   const addToCart = (foodItem: FoodItem, quantity: number = 1) => {

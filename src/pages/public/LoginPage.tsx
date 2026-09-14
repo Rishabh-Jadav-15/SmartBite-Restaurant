@@ -3,33 +3,53 @@ import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
 import { GlassCard } from '../../components/common/GlassCard';
 import { RoleBadge } from '../../components/common/RoleBadge';
-import { UserRole } from '../../types';
+// import { UserRole } from '../../types';
 import { Flame, Lock, Mail, ArrowRight, Sparkles, CheckCircle2, Shield } from 'lucide-react';
 
 export const LoginPage: React.FC<{ navigate: (path: string) => void }> = ({ navigate }) => {
-  const { login, switchRole } = useAuth();
+  const { login } = useAuth();
   const { isDarkMode } = useTheme();
-  const [email, setEmail] = useState('aarav.sharma@example.com');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
+  const [loginError, setLoginError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleStandardLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    login(email);
-    // Route based on role
-    if (email.includes('chef') || email.includes('staff')) navigate('/staff');
-    else if (email.includes('admin')) navigate('/admin');
-    else if (email.includes('owner') || email.includes('singhania')) navigate('/owner');
-    else navigate('/customer');
-  };
+  const handleStandardLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-  const handleQuickRoleSelect = (targetRole: UserRole) => {
-    switchRole(targetRole);
-    if (targetRole === 'CUSTOMER') navigate('/customer');
-    if (targetRole === 'STAFF') navigate('/staff');
-    if (targetRole === 'ADMIN') navigate('/admin');
-    if (targetRole === 'OWNER') navigate('/owner');
-  };
+  setLoginError('');
+  setIsLoading(true);
+
+  try {
+    const loggedInUser = await login(email, password);
+
+    if (loggedInUser.role === 'STAFF') {
+      navigate('/staff');
+    } else if (loggedInUser.role === 'ADMIN') {
+      navigate('/admin');
+    } else if (loggedInUser.role === 'OWNER') {
+      navigate('/owner');
+    } else {
+      navigate('/customer');
+    }
+  } catch (error) {
+    console.error('Login failed:', error);
+    setLoginError(
+      error instanceof Error ? error.message : 'Login failed. Please try again.'
+    );
+  }finally{
+    setIsLoading(false);
+  }
+};
+
+  // const handleQuickRoleSelect = (targetRole: UserRole) => {
+  //   switchRole(targetRole);
+  //   if (targetRole === 'CUSTOMER') navigate('/customer');
+  //   if (targetRole === 'STAFF') navigate('/staff');
+  //   if (targetRole === 'ADMIN') navigate('/admin');
+  //   if (targetRole === 'OWNER') navigate('/owner');
+  // };
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
@@ -166,12 +186,19 @@ export const LoginPage: React.FC<{ navigate: (path: string) => void }> = ({ navi
                 <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Remember session</span>
               </label>
             </div>
-
+                 {loginError && (
+                  <div className="text-xs text-red-500 text-center">
+                    {loginError}
+                  </div>
+                )}   
             <button
               type="submit"
+              disabled = {isLoading}
+
               className="w-full py-3 bg-[#FF6B35] hover:bg-[#FFA366] text-white text-xs font-bold rounded-xl shadow-lg shadow-[#FF6B35]/25 flex items-center justify-center gap-2 cursor-pointer transition-all"
             >
-              <span>Login</span>
+              <span>{isLoading ? 'Logging in...':'Login'}</span>
+              
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
