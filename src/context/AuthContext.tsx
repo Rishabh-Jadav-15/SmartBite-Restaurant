@@ -8,6 +8,14 @@ export interface AuthContextType {
   currentRole: UserRole;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<User>;
+  
+  register: (
+  name: string,
+  email: string,
+  phone: string,
+  password: string
+) => Promise<User>;
+
   logout: () => void;
   switchRole: (role: UserRole) => void;
   updateUser: (userData: Partial<User>) => void;
@@ -102,6 +110,60 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [role, cart]);
 
+  useEffect(()=>{
+    const restoreSession = async () =>{
+      const token = localStorage.getItem('smartbite_access_token');
+
+      if(!token){return;}
+
+      try{
+        const response = await fetch(
+          'http://127.0.0.1:8000/api/auth/me/',
+          {
+            method:'GET',
+            headers:{
+                  Authorization: `Bearer ${token}`,
+            },
+          }
+  );
+
+  if(!response.ok){
+    throw new Error('Session expired.');
+  }
+
+  const backendUser = await response.json();
+
+  const frontendRole = backendUser.role.toUpperCase() as UserRole;
+
+  const loggedInUser: User = {
+    id: String(backendUser.id),
+    name: backendUser.name,
+        email: backendUser.email,
+        phone: backendUser.phone || '',
+        role: frontendRole,
+        avatar: '',
+        createdAt: new Date().toLocaleDateString('en-GB'),
+        status: 'ACTIVE',
+  };
+
+  setUser(loggedInUser);
+  setRole(frontendRole);
+  setIsAuthenticated(true);
+      }catch (error){
+        console.error('Failed to restore session:', error);
+
+        localStorage.removeItem('smartbite_access_token');
+        localStorage.removeItem('smartbite_refresh_token');
+
+        setUser(null);
+        setIsAuthenticated(false);
+        setRole('CUSTOMER');
+
+      }
+    };
+    restoreSession();
+  },[]); 
+
   const switchRole = (newRole: UserRole) => {
     setRole(newRole);
     const targetUser = INITIAL_USERS.find(u => u.role === newRole);
@@ -114,7 +176,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const login = async (email: string, password: string) => {
-    const response = await fetch('http://127.0.0.1:8000/api/auth/login',{
+    const response = await fetch('http://127.0.0.1:8000/api/auth/login/',{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -156,6 +218,67 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return loggedInUser;
   };
+
+  const register = async (
+  name: string,
+  email: string,
+  phone: string,
+  password: string
+): Promise<User> => {
+  const response = await fetch(
+    'http://127.0.0.1:8000/api/auth/register/',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        password,
+      }),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    const errorMessage =
+      data.email?.[0] ||
+      data.password?.[0] ||
+      data.name?.[0] ||
+      data.phone?.[0] ||
+      data.detail ||
+      'Registration failed. Please try again.';
+
+    throw new Error(errorMessage);
+  }
+
+  localStorage.setItem('smartbite_access_token', data.access);
+  localStorage.setItem('smartbite_refresh_token', data.refresh);
+
+  const backendUser = data.user;
+
+  const frontendRole = backendUser.role.toUpperCase() as UserRole;
+
+  const registeredUser: User = {
+    id: String(backendUser.id),
+    name: backendUser.name,
+    email: backendUser.email,
+    phone: backendUser.phone || '',
+    role: frontendRole,
+    avatar: '',
+    createdAt: new Date().toLocaleDateString('en-GB'),
+    status: 'ACTIVE',
+  };
+
+  setUser(registeredUser);
+  setRole(frontendRole);
+  setIsAuthenticated(true);
+
+  return registeredUser;
+};
 
   const logout = () => {
     localStorage.removeItem('smartbite_access_token');
@@ -288,6 +411,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         currentRole: role,
         isAuthenticated,
         login,
+        register,
         logout,
         switchRole,
         updateUser,

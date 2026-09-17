@@ -2,30 +2,133 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
 import { GlassCard } from '../../components/common/GlassCard';
-import { UserRole } from '../../types';
-import { Flame, Mail, Lock, User, Phone, ArrowRight, CheckCircle2 } from 'lucide-react';
+// import { UserRole } from '../../types';
+import { Flame, Mail, User, Phone, ArrowRight } from 'lucide-react';
 
 export const RegisterPage: React.FC<{ navigate: (path: string) => void }> = ({ navigate }) => {
-  const { login } = useAuth();
+  const { register } = useAuth();
   const { isDarkMode } = useTheme();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    role: 'CUSTOMER' as UserRole,
     password: '',
     confirmPassword: '',
     terms: true,
   });
 
-  const handleRegister = (e: React.FormEvent) => {
-    e.preventDefault();
-    login(formData.email, formData.role);
-    if (formData.role === 'CUSTOMER') navigate('/customer');
-    else if (formData.role === 'STAFF') navigate('/staff');
-    else if (formData.role === 'ADMIN') navigate('/admin');
-    else if (formData.role === 'OWNER') navigate('/owner');
-  };
+  const [registerError, setRegisterError] = useState('');
+const [isLoading, setIsLoading] = useState(false);
+
+const handleRegister = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  setRegisterError('');
+
+  if (formData.password !== formData.confirmPassword) {
+    setRegisterError('Passwords do not match.');
+    return;
+  }
+
+  setIsLoading(true);
+
+  try {
+    await register(
+      formData.name,
+      formData.email,
+      formData.phone,
+      formData.password
+    );
+
+    navigate('/customer');
+  } catch (error) {
+    console.error('Registration failed:', error);
+
+    setRegisterError(
+      error instanceof Error
+        ? error.message
+        : 'Registration failed. Please try again.'
+    );
+  } finally {
+    setIsLoading(false);
+  }
+};
+// const handleRegister = async (e: React.FormEvent) => {
+//   e.preventDefault();
+
+//   setRegisterError('');
+
+//   if (formData.password !== formData.confirmPassword) {
+//     setRegisterError('Passwords do not match.');
+//     return;
+//   }
+
+//   setIsLoading(true);
+
+//   try {
+//     const response = await fetch(
+//       'http://127.0.0.1:8000/api/auth/register/',
+//       {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           name: formData.name,
+//           email: formData.email,
+//           phone: formData.phone,
+//           password: formData.password,
+//         }),
+//       }
+//     );
+
+//     const data = await response.json();
+
+//     if (!response.ok) {
+//       const errorMessage =
+//         data.email?.[0] ||
+//         data.password?.[0] ||
+//         data.name?.[0] ||
+//         data.phone?.[0] ||
+//         data.detail ||
+//         'Registration failed. Please try again.';
+
+//       throw new Error(errorMessage);
+//     }
+
+//     // await login(formData.email, formData.password);
+
+//     // navigate('/customer');
+    
+//       const { register } = useAuth();
+//   await register(
+//   formData.name,
+//   formData.email,
+//   formData.phone,
+//   formData.password
+// );
+
+// navigate('/customer');
+//   } catch (error) {
+//     console.error('Registration failed:', error);
+
+//     setRegisterError(
+//       error instanceof Error
+//         ? error.message
+//         : 'Registration failed. Please try again.'
+//     );
+//   } finally {
+//     setIsLoading(false);
+//   }
+// };
+  // const handleRegister = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   login(formData.email, formData.role);
+  //   if (formData.role === 'CUSTOMER') navigate('/customer');
+  //   else if (formData.role === 'STAFF') navigate('/staff');
+  //   else if (formData.role === 'ADMIN') navigate('/admin');
+  //   else if (formData.role === 'OWNER') navigate('/owner');
+  // };
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
@@ -137,11 +240,16 @@ export const RegisterPage: React.FC<{ navigate: (path: string) => void }> = ({ n
             </div>
 
             <div className="pt-2">
-              <button
-                type="submit"
-                className="w-full py-3 bg-[#FF6B35] hover:bg-[#FFA366] text-white text-xs font-bold rounded-xl shadow-lg shadow-[#FF6B35]/25 flex items-center justify-center gap-2 cursor-pointer transition-all"
-              >
-                <span>Complete Registration</span>
+            {registerError && (
+  <div className="text-xs text-red-500 bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2">
+    {registerError}
+  </div>
+  )}        <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-3 bg-[#FF6B35] hover:bg-[#FFA366] disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-bold rounded-xl shadow-lg shadow-[#FF6B35]/25 flex items-center justify-center gap-2 cursor-pointer transition-all"
+          >
+                <span>{isLoading ? 'Creating account...':'Complete Registration'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
