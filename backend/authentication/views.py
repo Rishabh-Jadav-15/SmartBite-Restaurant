@@ -1,15 +1,15 @@
-from django.shortcuts import render
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import LoginSerializer
-from rest_framework.permissions import IsAuthenticated
+from .serializers import LoginSerializer, RegisterSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
 # Create your views here.
 class LoginView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -42,6 +42,34 @@ class LoginView(APIView):
             }
         })
 
+
+class RegisterView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.save()
+
+        refresh = RefreshToken.for_user(user)
+
+        return Response(
+            {
+                "message": "Registration successful.",
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+                "user": {
+                    "id": user.id,
+                    "name": user.name,
+                    "email": user.email,
+                    "phone": user.phone,
+                    "role": user.role,
+                },
+            },
+            status=status.HTTP_201_CREATED
+        )
+
 class MeView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -49,8 +77,9 @@ class MeView(APIView):
         user = request.user
 
         return Response({
-            "id": user.id,
-            "name": user.name,
-            "email": user.email,
-            "role": user.role,
-        })
+    "id": user.id,
+    "name": user.name,
+    "email": user.email,
+    "phone": user.phone,
+    "role": user.role,
+    })
