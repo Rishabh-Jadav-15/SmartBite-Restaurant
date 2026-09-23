@@ -226,7 +226,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   password: string
 ): Promise<User> => {
   const response = await fetch(
-    'http://127.0.0.1:8000/api/auth/register/',
+    'http://127.0.0.1:8000/api/api/auth/register/',
     {
       method: 'POST',
       headers: {
